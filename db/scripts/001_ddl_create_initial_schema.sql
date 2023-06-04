@@ -19,8 +19,8 @@ create table films
     age              int                        not null,
 --    genre_id            int references genres (id) not null,
     minimal_age         int                        not null,
-    duration_in_minutes int                        not null,
-    file_id             int references files (id)  not null
+    duration_in_minutes int                        not null
+--    file_id             int references files (id)  not null
 );
 
 create table halls
