@@ -1,29 +1,29 @@
-create table if not exists files
+create table files
 (
     id   serial primary key,
     name varchar not null,
     path varchar not null unique
 );
 
-create table if not exists genres
+create table genres
 (
     id   serial primary key,
     name varchar unique not null
 );
 
-create table if not exists films
+create table films
 (
     id                  serial primary key,
     name                varchar                    not null,
     description         varchar                    not null,
-    "year"                int                        not null,
+    "year"              int                        not null,
     genre_id            int references genres (id) not null,
     minimal_age         int                        not null,
     duration_in_minutes int                        not null,
     file_id             int references files (id)  not null
 );
 
-create table if not exists halls
+create table halls
 (
     id          serial primary key,
     name        varchar not null,
@@ -32,7 +32,7 @@ create table if not exists halls
     description varchar not null
 );
 
-create table if not exists film_sessions
+create table film_sessions
 (
     id         serial primary key,
     film_id    int references films (id) not null,
@@ -42,15 +42,15 @@ create table if not exists film_sessions
     price      int                       not null
 );
 
-create table if not exists users
+create table users
 (
     id        serial primary key,
-    name varchar        not null,
+    full_name varchar        not null,
     email     varchar unique not null,
     password  varchar        not null
 );
 
-create table if not exists tickets
+create table tickets
 (
     id           serial primary key,
     session_id   int references film_sessions (id) not null,
@@ -58,6 +58,5 @@ create table if not exists tickets
     place_number int                               not null,
     user_id      int                               not null,
     unique (session_id, row_number, place_number)
-    DEFERRABLE INITIALLY DEFERRED
 );
 
