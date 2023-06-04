@@ -16,7 +16,7 @@ create table films
     id                  serial primary key,
     name                varchar                    not null,
     description         varchar                    not null,
-    "year"              int                        not null,
+    'year'              int                        not null,
     genre_id            int references genres (id) not null,
     minimal_age         int                        not null,
     duration_in_minutes int                        not null,
@@ -49,5 +49,16 @@ create table users
     email     varchar unique not null,
     password  varchar        not null
 );
+
+create table tickets
+(
+    id           serial primary key,
+    session_id   int references film_sessions (id) not null,
+    row_number   int                               not null,
+    place_number int                               not null,
+    user_id      int                               not null,
+    unique (session_id, row_number, place_number)
+);
+
 
 
