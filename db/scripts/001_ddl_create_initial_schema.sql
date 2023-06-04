@@ -35,8 +35,8 @@ create table halls
 create table film_sessions
 (
     id         serial primary key,
-    film_id    not null REFERENCES films (id),
-    halls_id   not null REFERENCES halls (id),
+    film_id    int not null REFERENCES films (id),
+    halls_id   int not null REFERENCES halls (id),
     start_time timestamp                 not null,
     end_time   timestamp                 not null,
     price      int                       not null
@@ -45,7 +45,7 @@ create table film_sessions
 create table users
 (
     id        serial primary key,
-    name varchar        not null,
+    name       varchar        not null,
     email     varchar unique not null,
     password  varchar        not null
 );
@@ -53,7 +53,7 @@ create table users
 create table tickets
 (
     id           serial primary key,
-    session_id   not null REFERENCES film_sessions (id),
+    session_id   int not null REFERENCES film_sessions (id),
     row_number   int                               not null,
     place_number int                               not null,
     user_id      int                               not null,
