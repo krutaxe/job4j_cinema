@@ -1,4 +1,4 @@
-insert into films(name, description, age, genre_id, minimal_age, duration_in_minutes, file_id)
+insert into films(name, description, "year", genre_id, minimal_age, duration_in_minutes, file_id)
 values
     ('Форрест Гамп',
     'Сидя на автобусной остановке, Форрест Гамп — не очень умный, но добрый и открытый парень — рассказывает случайным встречным историю своей необыкновенной жизни.
