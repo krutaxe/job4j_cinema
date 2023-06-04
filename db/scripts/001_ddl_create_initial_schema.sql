@@ -17,7 +17,7 @@ create table films
     name                varchar                    not null,
     description         varchar                    not null,
     age              int                        not null,
-    genre_id            int references genres (id) not null,
+--    genre_id            int references genres (id) not null,
     minimal_age         int                        not null,
     duration_in_minutes int                        not null,
     file_id             int references files (id)  not null
