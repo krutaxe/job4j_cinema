@@ -58,5 +58,6 @@ create table if not exists tickets
     place_number int                               not null,
     user_id      int                               not null,
     unique (session_id, row_number, place_number)
+    DEFERRABLE INITIALLY DEFERRED
 );
 
