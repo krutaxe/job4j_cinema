@@ -32,15 +32,15 @@ create table halls
     description varchar not null
 );
 
---create table film_sessions
---(
---    id         serial primary key,
---    film_id    int references films (id) not null,
---    halls_id   int references halls (id) not null,
---    start_time timestamp                 not null,
---    end_time   timestamp                 not null,
---    price      int                       not null
---);
+create table film_sessions
+(
+    id         serial primary key,
+    film_id    not null REFERENCES films (id),
+    halls_id   not null REFERENCES halls (id),
+    start_time timestamp                 not null,
+    end_time   timestamp                 not null,
+    price      int                       not null
+);
 
 create table users
 (
@@ -50,15 +50,15 @@ create table users
     password  varchar        not null
 );
 
---create table tickets
---(
---    id           serial primary key,
---    session_id   int references film_sessions (id) not null,
---    row_number   int                               not null,
---    place_number int                               not null,
---    user_id      int                               not null,
---    unique (session_id, row_number, place_number)
---);
+create table tickets
+(
+    id           serial primary key,
+    session_id   not null REFERENCES film_sessions (id),
+    row_number   int                               not null,
+    place_number int                               not null,
+    user_id      int                               not null,
+    unique (session_id, row_number, place_number)
+);
 
 
 
