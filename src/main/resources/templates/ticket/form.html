@@ -112,7 +112,7 @@
                 </form>
 
                 <span th:if="${userSession.name == 'Гость'}">
-                            <form th:action="@{/formAddUser}" method="POST" enctype="multipart/form-data">
+                            <form th:action="@{/formAddUser}" method="GET" enctype="multipart/form-data">
                         <h4>Для покупки билета необходимо зарегистрироваться.</h4>
                     <button type="submit" class="btn btn-primary">Пройти регистрацию</button>
                             </form>

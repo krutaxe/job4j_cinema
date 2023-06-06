@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import ru.job4j.cinema.dto.FilmDto;
-import ru.job4j.cinema.model.Film;
 import ru.job4j.cinema.service.FilmServiceImpl;
 import ru.job4j.cinema.util.Session;
 
@@ -22,7 +21,7 @@ public class FilmController {
     public String findAll(Model model, HttpSession session) {
         Session.getSessionUser(model, session);
         model.addAttribute("films", filmService.findAll());
-        return "films";
+        return "films/films";
     }
 
     @GetMapping("/film/{id}")
@@ -34,7 +33,7 @@ public class FilmController {
         } else {
             throw new RuntimeException();
         }
-        return "showFilm";
+        return "films/showFilm";
     }
 
 }

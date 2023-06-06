@@ -21,6 +21,6 @@ public class FilmSessionController {
         Session.getSessionUser(model, session);
         List<FilmSessionDto> filmSessions = (List<FilmSessionDto>) sessionService.findAll();
         model.addAttribute("sessions", filmSessions);
-        return "filmSessions";
+        return "films/sessions";
     }
 }

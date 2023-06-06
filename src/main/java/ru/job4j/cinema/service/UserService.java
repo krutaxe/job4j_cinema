@@ -3,7 +3,7 @@ package ru.job4j.cinema.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.User;
-import ru.job4j.cinema.repository.UserRepository;
+import ru.job4j.cinema.repository.UserRepositoryImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class UserService {
-    private final UserRepository userRepository;
+    private final UserRepositoryImpl userRepository;
 
     public List<User> findAll() {
         return userRepository.findAll();

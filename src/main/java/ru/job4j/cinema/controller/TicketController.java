@@ -33,23 +33,35 @@ public class TicketController {
     @GetMapping("/formTicket/{id}")
     public String byTicket(Model model, @PathVariable("id") int id, HttpSession session) {
         Session.getSessionUser(model, session);
-        FilmSession filmSession = filmSessionService.findById(id).get();
-        FilmDto film = filmService.findById(filmSession.getFilmId()).get();
-        Hall hall = hallService.findById(filmSession.getHallsId()).get();
-        model.addAttribute("ses", filmSession);
-        model.addAttribute("film", film);
-        model.addAttribute("hall", hall);
+        Optional<FilmSession> filmSession = filmSessionService.findById(id);
+        if (filmSession.isEmpty()) {
+            model.addAttribute("message", "Сеанс не найден");
+            return "errors/404";
+        }
+        Optional<FilmDto> filmDto = filmService.findById(filmSession.get().getFilmId());
+        if (filmDto.isEmpty()) {
+            model.addAttribute("message", "Фильм не найден");
+            return "errors/404";
+        }
+        Optional<Hall> hall = hallService.findById(filmSession.get().getHallsId());
+        if (hall.isEmpty()) {
+            model.addAttribute("message", "Кинозал не найден");
+            return "errors/404";
+        }
+        model.addAttribute("ses", filmSession.get());
+        model.addAttribute("film", filmDto.get());
+        model.addAttribute("hall", hall.get());
         List<Integer> rows = new ArrayList<>();
-        for (int i = 1; i <= hall.getRowCount(); i++) {
+        for (int i = 1; i <= hall.get().getRowCount(); i++) {
             rows.add(i);
         }
         List<Integer> places = new ArrayList<>();
-        for (int i = 1; i <= hall.getPlaceCount(); i++) {
+        for (int i = 1; i <= hall.get().getPlaceCount(); i++) {
             places.add(i);
         }
         model.addAttribute("rows", rows);
         model.addAttribute("places", places);
-        return "formByTicket";
+        return "ticket/form";
     }
 
     @PostMapping("/saveTicket/{id}")
@@ -59,26 +71,38 @@ public class TicketController {
         ticket.setSessionId(id);
         Optional<Ticket> optionalTicket = ticketService.save(ticket);
         if (optionalTicket.isEmpty()) {
-            return "redirect:/failByTicket";
+            return "errors/failTicket";
         }
         return "redirect:/successByTicket/" + ticket.getId();
     }
 
     @GetMapping("/successByTicket/{id}")
     public String successByTicket(Model model, @PathVariable("id") int id) {
-        Ticket ticket = ticketService.findById(id).get();
-        FilmSession filmSession = filmSessionService.findById(ticket.getSessionId()).get();
-        FilmDto filmDto = filmService.findById(filmSession.getFilmId()).get();
-        Hall hall = hallService.findById(filmSession.getHallsId()).get();
-        model.addAttribute("hall", hall);
-        model.addAttribute("film", filmDto);
-        model.addAttribute("sess", filmSession);
-        model.addAttribute("ticket", ticket);
-        return "successByTicket";
-    }
+        Optional<Ticket> ticket = ticketService.findById(id);
+        if (ticket.isEmpty()) {
+            model.addAttribute("message", "Билет не найден");
+            return "errors/404";
+        }
+        Optional<FilmSession> filmSession = filmSessionService.findById(ticket.get().getSessionId());
+        if (filmSession.isEmpty()) {
+            model.addAttribute("message", "Сеанс не найден");
+            return "errors/404";
+        }
+        Optional<FilmDto> filmDto = filmService.findById(filmSession.get().getFilmId());
+        if (filmDto.isEmpty()) {
+            model.addAttribute("message", "Фильм не найден");
+            return "errors/404";
+        }
+        Optional<Hall> hall = hallService.findById(filmSession.get().getHallsId());
+        if (hall.isEmpty()) {
+            model.addAttribute("message", "Кинозал не найден");
+            return "errors/404";
+        }
 
-    @GetMapping("/failByTicket")
-    public String fail() {
-        return "failByTicket";
+        model.addAttribute("hall", hall.get());
+        model.addAttribute("film", filmDto.get());
+        model.addAttribute("sess", filmSession.get());
+        model.addAttribute("ticket", ticket.get());
+        return "ticket/success";
     }
 }

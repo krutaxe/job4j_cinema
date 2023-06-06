@@ -25,14 +25,7 @@ public class UserController {
     public String getUser(Model model, HttpSession session) {
         Session.getSessionUser(model, session);
         model.addAttribute("users", userService.findAll());
-        return "addUser";
-    }
-
-    @PostMapping("/formAddUser")
-    public String returnAddUser(Model model, HttpSession session) {
-        Session.getSessionUser(model, session);
-        model.addAttribute("user", userService.findAll());
-        return "addUser";
+        return "users/addUser";
     }
 
     @PostMapping("/registration")
@@ -40,19 +33,9 @@ public class UserController {
         Optional<User> regUser = userService.add(user);
         if (regUser.isEmpty()) {
             model.addAttribute("message", "Пользователь с такой почтой уже существует");
-            return "redirect:/failUser";
+            return "redirect:/formAddUser";
         }
-        return "redirect:/success";
-    }
-
-    @GetMapping("/failUser")
-    public String fail() {
-        return "failUser";
-    }
-
-    @GetMapping("/success")
-    public String success() {
-        return "success";
+        return "redirect:/loginPage";
     }
 
     @GetMapping("/loginPage")
@@ -60,7 +43,7 @@ public class UserController {
             name = "fail", required = false) Boolean fail, HttpSession session) {
         Session.getSessionUser(model, session);
         model.addAttribute("fail", fail != null);
-        return "login";
+        return "users/login";
     }
 
     @PostMapping("/login")

@@ -25,33 +25,20 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-<!--            <div class="navbar-nav">-->
-<!--                <a class="nav-item nav-link" th:href="@{/index}">Главная</a>-->
-<!--                <a class="nav-item nav-link" th:href="@{/sessions}">Расписание</a>-->
-<!--                <a class="nav-item nav-link" th:href="@{/films}">Кинотека</a>-->
-<!--                <a class="nav-item nav-link" th:href="@{/formAddUser}">Регистрация</a>-->
-<!--                <a class="nav-item nav-link" th:if="${userSession.name == 'Гость'}" th:href="@{/loginPage}">-->
-<!--                    <span th:text="${userSession.name}"></span>-->
-<!--                    <span> | Войти</span>-->
-<!--                </a>-->
-<!--                <a class="nav-item nav-link" th:if="${userSession.name != 'Гость'}" th:href="@{/logout}">-->
-<!--                    <span th:text="${userSession.name}"></span>-->
-<!--                    <span th:text="${userSession.email}"></span>-->
-<!--                    <span> | Выйти</span>-->
-<!--                </a>-->
-<!--            </div>-->
         </div>
     </nav>
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Новый пользователь.
+                Покупка билета
             </div>
             <div class="card-body">
-                <form th:action="@{/login}" method="POST" enctype="multipart/form-data">
-                        <h4>Вы успешно зарегистрировались!</h4>
-                        <h4>Аторизируйтесь</h4>
-                    <button type="submit" class="btn btn-primary">Войти</button>
+                <form th:action="@{/sessions}" method="GET" enctype="multipart/form-data">
+                    <div class="container">
+                        <h3 class="mt-3">Произошла ошибка</h3>
+                        <p class="text-danger" th:text="${message}"></p>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Назад</button>
                 </form>
             </div>
         </div>
