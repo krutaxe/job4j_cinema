@@ -73,36 +73,7 @@ public class TicketController {
         if (optionalTicket.isEmpty()) {
             return "errors/failTicket";
         }
-        return "redirect:/successByTicket/" + ticket.getId();
-    }
-
-    @GetMapping("/successByTicket/{id}")
-    public String successByTicket(Model model, @PathVariable("id") int id) {
-        Optional<Ticket> ticket = ticketService.findById(id);
-        if (ticket.isEmpty()) {
-            model.addAttribute("message", "Билет не найден");
-            return "errors/404";
-        }
-        Optional<FilmSession> filmSession = filmSessionService.findById(ticket.get().getSessionId());
-        if (filmSession.isEmpty()) {
-            model.addAttribute("message", "Сеанс не найден");
-            return "errors/404";
-        }
-        Optional<FilmDto> filmDto = filmService.findById(filmSession.get().getFilmId());
-        if (filmDto.isEmpty()) {
-            model.addAttribute("message", "Фильм не найден");
-            return "errors/404";
-        }
-        Optional<Hall> hall = hallService.findById(filmSession.get().getHallsId());
-        if (hall.isEmpty()) {
-            model.addAttribute("message", "Кинозал не найден");
-            return "errors/404";
-        }
-
-        model.addAttribute("hall", hall.get());
-        model.addAttribute("film", filmDto.get());
-        model.addAttribute("sess", filmSession.get());
-        model.addAttribute("ticket", ticket.get());
+        model.addAttribute("ticket", optionalTicket.get());
         return "ticket/success";
     }
 }
